@@ -8,6 +8,9 @@
 
 #include "generator.hpp"
 
+std::discrete_distribution<size_t> generator::distr;
+std::vector<std::string::value_type> generator::letters;
+
 void generator::initDistribution( const std::string& text ) {
 	typedef std::map<std::string::value_type, uint64_t> distributionMap;
 
@@ -34,7 +37,7 @@ void generator::initDistribution( const std::string& text ) {
 generator::generator( std::minstd_rand::result_type seed ) :
 	rng( seed ) {}
 
-std::string::value_type generator::getNextChar() const {
+std::string::value_type generator::getNextChar() {
 	return letters.at( distr( rng ) );
 }
 

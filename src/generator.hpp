@@ -10,12 +10,12 @@ private:
 	static std::discrete_distribution<size_t> distr;
 	static std::vector<std::string::value_type> letters;
 
-	const std::minstd_rand rng;
+	std::minstd_rand rng;
 
 public:
 	static void initDistribution( const std::string& text );
 
 	generator( std::minstd_rand::result_type seed );
 
-	std::string::value_type getNextChar() const;
+	std::string::value_type getNextChar();
 };
