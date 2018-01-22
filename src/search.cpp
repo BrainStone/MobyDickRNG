@@ -3,6 +3,10 @@
 const std::string mobyDick = getMobyDick();
 const size_t sizeMobyDick = mobyDick.size();
 
+unsigned int calculateScore( std::function<uint8_t()> predicter ) {
+	return calculateScore( [&predicter]( uint8_t ) -> uint8_t { return predicter(); } );
+}
+
 unsigned int calculateScore( std::function<uint8_t( uint8_t )> predicter ) {
 	unsigned int score = 0;
 
