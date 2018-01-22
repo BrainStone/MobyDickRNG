@@ -1,0 +1,91 @@
+// Project-Type
+apply plugin: "cpp"
+// IDEs
+apply plugin: "visual-studio"
+
+model {
+    visualStudio {
+        solutions.all {
+            solutionFile.withContent { TextProvider content ->
+                content.asBuilder().insert(0, "# GENERATED FILE: DO NOT EDIT\n")
+                content.text = content.text.replaceAll("HideSolutionNode = FALSE", "HideSolutionNode = TRUE")
+            }
+        }
+    }
+    
+    buildTypes {
+        debug
+        release
+    }
+    
+    platforms {
+        x86 {
+            architecture "x86"
+        }
+        x64 {
+            architecture "x64"
+        }
+    }
+
+    components {
+        MobyDickRNG(NativeExecutableSpec) {
+            if(System.properties['sun.arch.data.model'] == "64") {
+                targetPlatform "x64"
+            } else {
+                targetPlatform "x86"
+            }
+
+            sources.cpp {
+                source {
+                    srcDirs "src"
+                    include "**/*.cpp"
+                }
+                exportedHeaders {
+                    srcDirs "src"
+                    include "**/*.hpp"
+                }
+            }
+        }
+    }
+    
+    binaries {
+        all {
+            if (toolChain in Gcc) {
+                cppCompiler.args "-Wall", "-Wextra", "-Wpedantic", "-fPIC", "-std=c++14"
+            }
+            if (toolChain in Clang) {
+                cppCompiler.args "-Weverything", "-pedantic", "-std=c++14"
+            }
+            if (toolChain in VisualCpp) {
+                cppCompiler.args "/W4", "/FS", "/EHsc", "/std:c++14"
+            }
+            
+            if(buildType == buildTypes.debug) {
+                cppCompiler.define "__DEBUG__"
+    
+                if (toolChain in Gcc) {
+                    cppCompiler.args "-Og", "-g3"
+                }
+                if (toolChain in Clang) {
+                    cppCompiler.args "-O0", "-g"
+                }
+                if (toolChain in VisualCpp) {
+                    cppCompiler.args "/Od", "/Z7"
+                }
+            }
+            if(buildType == buildTypes.release) {
+                cppCompiler.define "__NDEBUG__"
+    
+                if (toolChain in Gcc) {
+                    cppCompiler.args "-Ofast", "-g0"
+                }
+                if (toolChain in Clang) {
+                    cppCompiler.args "-Ofast", "-g0"
+                }
+                if (toolChain in VisualCpp) {
+                    cppCompiler.args "/O1"
+                }
+            }
+        }
+    }
+}
