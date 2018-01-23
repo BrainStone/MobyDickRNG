@@ -51,10 +51,12 @@ model {
     binaries {
         all {
             if (toolChain in Gcc) {
-                cppCompiler.args "-Wall", "-Wextra", "-Wpedantic", "-fPIC", "-std=c++14", "-lpthread"
+                cppCompiler.args "-Wall", "-Wextra", "-Wpedantic", "-fPIC", "-std=c++14"
+                linker.args "-lpthread"
             }
             if (toolChain in Clang) {
-                cppCompiler.args "-Weverything", "-pedantic", "-std=c++14", "-lpthread"
+                cppCompiler.args "-Weverything", "-pedantic", "-std=c++14"
+                linker.args "-lpthread"
             }
             if (toolChain in VisualCpp) {
                 cppCompiler.args "/W4", "/FS", "/EHsc", "/std:c++14"
