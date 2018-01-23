@@ -4,7 +4,15 @@ const std::string mobyDick = getMobyDick();
 const size_t sizeMobyDick = mobyDick.size();
 
 unsigned int calculateScore( std::function<uint8_t()> predicter ) {
-	return calculateScore( [&predicter]( uint8_t ) -> uint8_t { return predicter(); } );
+	unsigned int score = 0;
+
+	for ( size_t i = 0; i < (sizeMobyDick - 1); ) {
+		if ( predicter() != mobyDick[++i] ) {
+			++score;
+		}
+	}
+
+	return score;
 }
 
 unsigned int calculateScore( std::function<uint8_t( uint8_t )> predicter ) {
