@@ -1,6 +1,6 @@
 #include "main.hpp"
 
-std::atomic<std::minstd_rand::result_type> seed = 0;
+std::atomic<std::minstd_rand::result_type> seed(0);
 
 std::mutex bestScoreLock;
 unsigned int bestScore = sizeMobyDick;
@@ -17,7 +17,7 @@ int main() {
 
 	generator::initDistribution( mobyDick );
 
-	for ( int i = 0; i < threadsCount; ++i ) {
+	for ( unsigned int i = 0; i < threadsCount; ++i ) {
 		threads.push_back( std::thread( search ) );
 	}
 
