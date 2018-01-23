@@ -33,7 +33,7 @@ int main() {
 		}
 
 		std::cout << "\rProgress: " << std::fixed << std::setprecision( 1 ) << ((double)currentSeed) / ((double)limit) * 100.0 << "% (" << currentSeed << '/' << limit << ") "
-			"Best Seed: " << currentBestSeed << "\tBest Score: " << currentBestScore << "            " << std::flush;
+			"Best Seed: " << currentBestSeed << "   Best Score: " << currentBestScore << "            " << std::flush;
 	}
 
 	for ( std::thread& thread : threads ) {
