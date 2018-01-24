@@ -15,7 +15,8 @@ private:
 public:
 	static void initDistribution( const std::string& text );
 
-	generator( std::minstd_rand::result_type seed );
+	generator( std::minstd_rand::result_type seed = std::minstd_rand::default_seed );
 
+	void setSeed( std::minstd_rand::result_type seed = std::minstd_rand::default_seed );
 	std::string::value_type getNextChar();
 };
