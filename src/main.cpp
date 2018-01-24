@@ -1,10 +1,10 @@
 #include "main.hpp"
 
 std::atomic<std::minstd_rand::result_type> seed(0);
-
-std::mutex bestScoreLock;
 std::atomic<unsigned int> bestScore(sizeMobyDick);
 std::atomic<std::minstd_rand::result_type> bestSeed(0);
+std::mutex bestScoreLock;
+
 constexpr uint64_t limit = std::numeric_limits<uint32_t>::max();
 
 int main() {
@@ -16,7 +16,7 @@ int main() {
 	std::minstd_rand::result_type currentBestSeed;
 	std::list<std::thread> threads;
 
-	generator::initDistribution(mobyDick);
+	generator2::initDistribution(mobyDick);
 
 	for (unsigned int i = 0; i < threadsCount; ++i) {
 		threads.push_back(std::thread(search));
@@ -48,14 +48,14 @@ int main() {
 }
 
 void search() {
-	generator gen;
+	generator2 gen;
 	unsigned int score;
 	std::minstd_rand::result_type currentSeed;
 
 	while (seed < limit) {
 		currentSeed = seed++;
 		gen.setSeed(currentSeed);
-		score = calculateScore([&gen]() -> uint8_t {return gen.getNextChar();});
+		score = calculateScore([&gen](char in) -> uint8_t {return gen.getNextChar(in);});
 
 		{
 			std::lock_guard<std::mutex> lock(bestScoreLock);
