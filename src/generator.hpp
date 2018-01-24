@@ -58,3 +58,20 @@ public:
 			std::minstd_rand::default_seed);
 	std::string::value_type getNextChar();
 };
+
+class generator2 {
+private:
+	static std::map<std::string::value_type, discrete_mapped_distribution<std::string::value_type>> letters;
+
+	std::minstd_rand rng;
+
+public:
+	static void initDistribution(const std::string& text);
+
+	generator2(std::minstd_rand::result_type seed =
+			std::minstd_rand::default_seed);
+
+	void setSeed(std::minstd_rand::result_type seed =
+			std::minstd_rand::default_seed);
+	std::string::value_type getNextChar(char in);
+};
