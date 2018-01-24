@@ -32,7 +32,7 @@ void generator2::initDistribution(const std::string& text) {
 	std::map<std::string::value_type, std::map<std::string::value_type, uint64_t>> letterDistribution;
 
 	std::string::const_iterator it = text.cbegin();
-	std::string::const_reference oldLetter = *it++;
+	std::string::value_type oldLetter = *it++;
 
 	for (; it != text.cend();) {
 		++(letterDistribution[oldLetter][*it]);
